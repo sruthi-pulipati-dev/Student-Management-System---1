@@ -1,5 +1,21 @@
 from django.db import models
 
+class Faculty(models.Model):
+    class Subject(models.TextChoices):
+        MATHS = "maths", "Maths"
+        PHYSICS = 'physics', 'Physics'
+        CHEMISTRY = 'chemistry', 'Chemistry'
+        SCIENCE = 'science', 'Science'
+        HISTORY = 'history', 'History'
+
+    name = models.CharField(max_length=100, blank=False, null=False)
+    subject = models.CharField(max_length=10, choices = Subject.choices, blank=False, null=False)
+    experience = models.IntegerField(blank=False, null=False)
+
+class Guardian(models.Model):
+    name = models.CharField(max_length=100, blank=False, null=False)
+    age = models.IntegerField(blank=False, null=False)
+
 class Student(models.Model):
 
     class Courses(models.TextChoices):
@@ -25,3 +41,8 @@ class Student(models.Model):
     mobile_no = models.CharField(max_length=10, null=False ,blank=False, unique=True)
     date_of_birth = models.DateField(null=False ,blank=False)
     joined_at = models.DateField(null=False ,blank=False, auto_now_add=True)
+    faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE,blank=True, null=True)
+    guardian = models.OneToOneField(Guardian, on_delete=models.CASCADE, blank=True, null=True)
+
+
+
